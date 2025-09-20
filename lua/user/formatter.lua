@@ -53,6 +53,13 @@ require("formatter").setup({
 			end,
 		},
 
+		cpp = {
+			require("formatter.filetypes.cpp").clangformat,
+			function()
+				return {}
+			end,
+		},
+
 		rust = {
 			require("formatter.filetypes.rust").rustfmt,
 			function()
