@@ -1,6 +1,6 @@
 require("mason-lspconfig").setup()
 
-require("lspconfig").pylsp.setup({
+vim.lsp.config("pylsp", {
 	settings = {
 		pylsp = {
 			plugins = {
@@ -10,10 +10,10 @@ require("lspconfig").pylsp.setup({
 				},
 			},
 		},
-	},
+	}
 })
 
-require("lspconfig").eslint.setup({
+vim.lsp.config("eslint", {
 	filetypes = {
 		"javascript",
 		"javascriptreact",
@@ -27,7 +27,7 @@ require("lspconfig").eslint.setup({
 	},
 })
 
-require("lspconfig").svelte.setup({})
+vim.lsp.config("svelte", {})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
