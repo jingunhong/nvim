@@ -75,7 +75,7 @@ require("lazy").setup({
 	{
 		"mason-org/mason-lspconfig.nvim",
 		opts = {
-			ensure_installed = { "lua_ls", "ruff", "clangd", "bashls" },
+			ensure_installed = { "lua_ls", "pyright", "clangd", "bashls" },
 			automatic_installation = true,
 		},
 	},
@@ -88,7 +88,7 @@ require("lazy").setup({
 		},
 		config = function()
 			require("mason-null-ls").setup({
-				ensure_installed = { "stylua", "clang-format", "beautysh" },
+				ensure_installed = { "stylua", "ruff", "clang-format", "beautysh" },
 			})
 		end,
 	},
@@ -125,7 +125,7 @@ require("lazy").setup({
 			format_on_save = { timeout_ms = 1500, lsp_fallback = true },
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "ruff" },
+				python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 				sh = { "beautysh" },
@@ -190,4 +190,31 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
-vim.lsp.enable({ "lua_ls", "ruff", "clangd", "bashls" })
+vim.lsp.enable({ "lua_ls", "pyright", "clangd", "bashls" })
+
+-- LSP diagnostics options setup
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "󰅚",
+			[vim.diagnostic.severity.WARN] = "󰀪",
+			[vim.diagnostic.severity.HINT] = "󰌶",
+			[vim.diagnostic.severity.INFO] = "",
+		},
+	},
+	virtual_text = false,
+	update_in_insert = true,
+	underline = true,
+	severity_sort = true,
+	float = {
+		border = "rounded",
+		source = "always",
+		header = "",
+		prefix = "",
+	},
+})
+
+vim.cmd([[
+set signcolumn=yes
+autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+]])
